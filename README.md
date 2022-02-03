@@ -5,4 +5,7 @@ A generative art installation project on an ESP32 that visualizes the following 
 
 > This is a test.
 
+## Additional Information
+
+Programmed in Arduino.
 
