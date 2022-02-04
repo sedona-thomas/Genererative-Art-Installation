@@ -16,12 +16,13 @@ TFT_eSPI tft = TFT_eSPI();  // Invoke library, pins defined in User_Setup.h
 // Pause in milliseconds between screens, change to 0 to time font rendering
 #define WAIT 500
 
-
-unsigned long targetTime = 0; // Used for testing draw times
+unsigned long startTime = 0;
+unsigned long loopStartTime = 0; // Used for testing draw times
 
 void setup(void) {
   tft.init();
   tft.setRotation(1);
+  startTime = millis();
 }
 
 void loop() {
@@ -37,8 +38,13 @@ void loop() {
   //tft.drawChar(127, xpos, 64, 2);
   delay(WAIT);
 
-  tft.drawString("current loop runtime", 0, 48, 2);
-  tft.drawNumber(millis() - loopStartTime, 0, 100, 4);
+  tft.fillScreen(TFT_WHITE);
+  tft.setTextColor(TFT_BLACK);
+  tft.drawString("current runtime", 0, 0, 2);
+  tft.drawNumber(millis() - startTime, 0, 15, 2);
+  tft.drawString("current loop runtime", 0, 35, 2);
+  tft.drawNumber(millis() - loopStartTime, 0, 50, 2);
+  delay(WAIT);
   
 
 }
