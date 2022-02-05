@@ -1,5 +1,5 @@
 /*
- * TTGO Text Visualization: 
+ * TTGO Basic Text Visualization: visualizes simple text on TTGO T1 screen
  * 
  * @author Sedona Thomas
  * @author snt2127
