@@ -33,7 +33,10 @@ void loop() {
   loopStartTime = millis();
   setupScreen();
 
-  std::vector<String> strs = {"hello", " ", "world"};
+  std::string fileName = "";
+  std::string fileString = readFile(fileName);
+  char *fileChars = fileString.c_str();
+  
   writeScrollingLine(strs, 0, 0, 1);
 }
 
@@ -43,12 +46,21 @@ void setupScreen() {
   tft.setTextColor(currentTextColor);
 }
 
-void writeScrollingLine(std::vector<String> chars, int xPos, int yPos, int size) {
+std::string readFile(std::string fileName) {
+  std::ifstream in(fileName);
+  std::string contents((std::istreambuf_iterator<char>(in)),  std::istreambuf_iterator<char>());
+  return contents;
+}
+
+void writeScrollingLine(char *chars, int xPos, int yPos, int size) {
   for (int i = 0; i < chars.size(); i++) {
     int currentX = xPos;
+    char *c = chars;
     tft.fillScreen(currentBackgroundColor);
     tft.setTextColor(currentTextColor);
-    for_each(chars.begin() + i, chars.end(), [&currentX, yPos, size] (String c) { currentX += tft.drawString(c, currentX, yPos, size); });
+    while (*c++) {
+      currentX += tft.drawString(c, currentX, yPos, size);
+    }
     delay(WAIT);
   }
 }
@@ -56,11 +68,13 @@ void writeScrollingLine(std::vector<String> chars, int xPos, int yPos, int size)
 void writeLine(std::vector<String> strs, int xPos, int yPos, int size) {
   tft.fillScreen(currentBackgroundColor);
   tft.setTextColor(currentTextColor);
-  for(const auto& str : strs) {
+  for (const auto& str : strs) {
     xPos += tft.drawString(str, xPos, yPos, size);
   }
   delay(WAIT);
 }
+
+std::vector<String> splitByChar(
 
 // https://stackoverflow.com/questions/13720937/c-defined-16bit-high-color
 inline uint16_t getRGB(uint8_t r, uint8_t g, uint8_t b) {
