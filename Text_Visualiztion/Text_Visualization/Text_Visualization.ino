@@ -1,5 +1,5 @@
 /*
- * TTGO Basic Text Visualization: visualizes simple text on TTGO T1 screen
+ * TTGO Text Visualization: scrolls through the UDHR in the two original languages (French and English)
  * 
  * @author Sedona Thomas
  * @author snt2127
@@ -34,8 +34,7 @@ void loop() {
   setupScreen();
 
   std::vector<String> strs = {"hello", " ", "world"};
-  writeLine(strs, 0, 0, 1);
-  delay(WAIT);
+  writeScrollingLine(strs, 0, 0, 1);
 }
 
 void setupScreen() {
@@ -44,16 +43,22 @@ void setupScreen() {
   tft.setTextColor(currentTextColor);
 }
 
+void writeScrollingLine(std::vector<String> chars, int xPos, int yPos, int size) {
+  for (int i = 0; i < chars.size(); i++) {
+    tft.fillScreen(currentBackgroundColor);
+    tft.setTextColor(currentTextColor);
+    for_each(chars.begin() + i, chars.end(),[](){ xPos += tft.drawString(chars, xPos, yPos, size); });
+    delay(WAIT);
+  }
+}
+
 void writeLine(std::vector<String> strs, int xPos, int yPos, int size) {
   tft.fillScreen(currentBackgroundColor);
   tft.setTextColor(currentTextColor);
   for(const auto& str : strs) {
     xPos += tft.drawString(str, xPos, yPos, size);
   }
-}
-
-void drawDegreeSymbol(int xPos, int yPos, int size) {
-  tft.drawChar(127, xPos, yPos, size);
+  delay(WAIT);
 }
 
 // https://stackoverflow.com/questions/13720937/c-defined-16bit-high-color
