@@ -57,9 +57,6 @@ void drawDegreeSymbol(int xPos, int yPos, int size) {
 }
 
 // https://stackoverflow.com/questions/13720937/c-defined-16bit-high-color
-inline uint16_t getColor(uint8_t red, uint8_t green, uint8_t blue) {
-  red   >>= 3;
-  green >>= 2;
-  blue  >>= 3;
-  return (red << 11) | (green << 5) | blue;
+inline uint16_t getRGB(uint8_t r, uint8_t g, uint8_t b) {
+  return ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
 }
