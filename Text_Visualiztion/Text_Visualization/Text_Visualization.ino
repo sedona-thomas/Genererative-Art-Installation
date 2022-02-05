@@ -48,7 +48,7 @@ void writeScrollingLine(std::vector<String> chars, int xPos, int yPos, int size)
     int currentX = xPos;
     tft.fillScreen(currentBackgroundColor);
     tft.setTextColor(currentTextColor);
-    for_each(chars.begin() + i, chars.end(), [&currentX, yPos, size] (String c) { currentX += tft.drawString(c, xurrentX, yPos, size); });
+    for_each(chars.begin() + i, chars.end(), [&currentX, yPos, size] (String c) { currentX += tft.drawString(c, currentX, yPos, size); });
     delay(WAIT);
   }
 }
