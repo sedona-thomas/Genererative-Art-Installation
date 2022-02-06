@@ -33,7 +33,7 @@ void loop() {
   setupScreen();
 
   std::vector<String> strs = {"a", " ", "b", " ", "c"};
-  writeScrollingLine(strs, 0, 0, 1);
+  writeScrollingLine(strs, 0, 0, 2);
 }
 
 void setupScreen() {
