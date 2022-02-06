@@ -8,6 +8,9 @@
 #define WAIT 500 // miliseconds
 
 #include <stdint.h>
+#include <iostream>
+#include <fstream>
+
 #include <SPI.h>
 #include <TFT_eSPI.h>
 TFT_eSPI tft = TFT_eSPI();
@@ -19,10 +22,6 @@ uint8_t currentTextSize = 1; // 10 pixels
 unsigned long startTime = 0;
 unsigned long loopStartTime = 0; // Used for testing draw times
 
-void writeLine(std::vector<String> strs, int yPos, int size);
-void drawDegreeSymbol(int xPos, int yPos, int size);
-inline uint16_t getColor(uint8_t red, uint8_t green, uint8_t blue);
-
 void setup(void) {
   tft.init();
   tft.setRotation(1);
@@ -33,10 +32,7 @@ void loop() {
   loopStartTime = millis();
   setupScreen();
 
-  std::string fileName = "";
-  std::string fileString = readFile(fileName);
-  char *fileChars = fileString.c_str();
-  
+  std::vector<String> strs = {"a", " ", "b", " ", "c"};
   writeScrollingLine(strs, 0, 0, 1);
 }
 
@@ -48,18 +44,18 @@ void setupScreen() {
 
 std::string readFile(std::string fileName) {
   std::ifstream in(fileName);
-  std::string contents((std::istreambuf_iterator<char>(in)),  std::istreambuf_iterator<char>());
-  return contents;
+  std::string fileContents((std::istreambuf_iterator<char>(in)),  std::istreambuf_iterator<char>());
+  return fileContents;
 }
 
-void writeScrollingLine(char *chars, int xPos, int yPos, int size) {
-  for (int i = 0; i < chars.size(); i++) {
+void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size) {
+  for (int i = 0; i < strs.size(); i++) {
     int currentX = xPos;
-    char *c = chars;
     tft.fillScreen(currentBackgroundColor);
     tft.setTextColor(currentTextColor);
-    while (*c++) {
-      currentX += tft.drawString(c, currentX, yPos, size);
+    std::vector<String> subStrs = {strs.begin() + i, strs.end()};
+    for (const auto& str : subStrs) {
+      xPos += tft.drawString(str, xPos, yPos, size);
     }
     delay(WAIT);
   }
@@ -74,9 +70,37 @@ void writeLine(std::vector<String> strs, int xPos, int yPos, int size) {
   delay(WAIT);
 }
 
-std::vector<String> splitByChar(
-
 // https://stackoverflow.com/questions/13720937/c-defined-16bit-high-color
 inline uint16_t getRGB(uint8_t r, uint8_t g, uint8_t b) {
   return ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
 }
+
+
+//std::string readFile(std::string fileName) {
+//  std::ifstream in(fileName);
+//  std::string fileContents((std::istreambuf_iterator<char>(in)),  std::istreambuf_iterator<char>());
+//  return fileContents;
+//}
+//
+//void writeLine(const char *chars, int xPos, int yPos, int size) {
+//  tft.fillScreen(currentBackgroundColor);
+//  tft.setTextColor(currentTextColor);
+//  while (*chars++) {
+//    String c = chars;
+//    xPos += tft.drawString(c, xPos, yPos, size);
+//  }
+//  delay(WAIT);
+//}
+//
+//void writeScrollingLine(const char *chars, int xPos, int yPos, int size) {
+//  while (*chars++) {
+//    int currentX = xPos;
+//    const char *c = chars;
+//    tft.fillScreen(currentBackgroundColor);
+//    tft.setTextColor(currentTextColor);
+//    while (*c++) {
+//      currentX += tft.drawString(c, currentX, yPos, size);
+//    }
+//    delay(WAIT);
+//  }
+//}
