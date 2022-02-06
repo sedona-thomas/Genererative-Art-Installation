@@ -42,20 +42,15 @@ void setupScreen() {
   tft.setTextColor(currentTextColor);
 }
 
-std::string readFile(std::string fileName) {
-  std::ifstream in(fileName);
-  std::string fileContents((std::istreambuf_iterator<char>(in)),  std::istreambuf_iterator<char>());
-  return fileContents;
-}
-
 void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size) {
   for (int i = 0; i < strs.size(); i++) {
-    int currentX = xPos;
     tft.fillScreen(currentBackgroundColor);
     tft.setTextColor(currentTextColor);
+
+    int currentX = xPos;
     std::vector<String> subStrs = {strs.begin() + i, strs.end()};
     for (const auto& str : subStrs) {
-      xPos += tft.drawString(str, xPos, yPos, size);
+      currentX += tft.drawString(str, currentX, yPos, size);
     }
     delay(WAIT);
   }
