@@ -5,7 +5,7 @@
  * @author snt2127
  */
 
-#define WAIT 50 // miliseconds
+#define WAIT 10 // miliseconds
 
 #include <stdint.h>
 #include <iostream>
