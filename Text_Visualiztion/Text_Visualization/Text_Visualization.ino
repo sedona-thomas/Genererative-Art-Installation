@@ -5,7 +5,7 @@
  * @author snt2127
  */
 
-#define WAIT 500 // miliseconds
+#define WAIT 50 // miliseconds
 
 #include <stdint.h>
 #include <iostream>
@@ -43,6 +43,7 @@ void loop() {
   resetScreen();
   //writeScrollingLine(getCharacterVector(EnglishUDHR), 0, 0, 2);
   writeDoubleScrollingLine(getCharacterVector(EnglishUDHR), getCharacterVector(FrenchUDHR), 0, 0, 2);
+  currentBackgroundColor = randomColor();
 }
 
 void resetScreen() {
@@ -94,6 +95,10 @@ std::vector<String> getCharacterVector(std::string str) {
     chars.push_back(String(str[i])); 
   }
   return chars;
+}
+
+inline uint16_t randomColor() {
+  return getRGB(random(0, 255), random(0, 255), random(0, 255));
 }
 
 // https://stackoverflow.com/questions/13720937/c-defined-16bit-high-color
