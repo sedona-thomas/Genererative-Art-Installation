@@ -44,12 +44,14 @@ void loop() {
   currentBackgroundColor = randomColor();
 }
 
+// resetScreen(): resets the background and text color/size of the display
 void resetScreen() {
   tft.setTextSize(currentTextSize);
   tft.fillScreen(currentBackgroundColor);
   tft.setTextColor(currentTextColor);
 }
 
+// writeScrollingLine(): writes two lines of text to the screen and scrolls through the text
 void writeDoubleScrollingLine(std::vector<String> strs1, std::vector<String> strs2, int xPos, int yPos, int size) {
   for (int i = 0; i < strs1.size(); i++) {
     resetScreen();
@@ -63,6 +65,7 @@ void writeDoubleScrollingLine(std::vector<String> strs1, std::vector<String> str
   }
 }
 
+// writeScrollingLine(): writes a single line of text to the screen and scrolls through the text
 void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size) {
   for (int i = 0; i < strs.size(); i++) {
     resetScreen();
@@ -75,6 +78,7 @@ void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size) 
   }
 }
 
+// writeLine(): writes a single line of text to the screen as a single frame
 void writeLine(std::vector<String> strs, int xPos, int yPos, int size) {
   resetScreen();
   for (const auto& str : strs) {
@@ -83,6 +87,7 @@ void writeLine(std::vector<String> strs, int xPos, int yPos, int size) {
   delay(WAIT);
 }
 
+// addLine(): adds a single line of text to the screen at starting at an offset location
 void addLine(std::vector<String> strs, int xPos, int yPos, int size, int offset) {
   int currentX = xPos;
   std::vector<String> subStrs = {strs.begin() + offset, strs.end()};
