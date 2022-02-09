@@ -23,14 +23,14 @@ A generative art installation on an  ESP32 TTGO T-Display that visualizes the UD
 - Comment out the line that says `#include <User_Setup.h>`
 - Uncomment the line that says `#include <User_Setups/Setup25_TTGO_T_Display.h>`
 
-## Test ESP32 TTGO T-Display
+### Test ESP32 TTGO T-Display
 
 - Open the Arduino IDE
 - Select `Files > Examples > TFT_eSPI > 160 x 128 > RLE_font_test`
 - Plug in the ESP32 TTGO T-Display
 - Select `Sketch > Upload`
 
-## Run Text Visualization
+### Run Text Visualization
 
 - Open `./Text_Visualiztion/Text_Visualization/Text_Visualization.ino` the Arduino IDE
 - Plug in the ESP32 TTGO T-Display
