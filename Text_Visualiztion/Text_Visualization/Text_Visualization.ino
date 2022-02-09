@@ -17,7 +17,7 @@ void resetScreen();
 void writeDoubleScrollingLine(std::vector<String> strs1, std::vector<String> strs2, int xPos, int yPos, int size);
 void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size);
 void writeLine(std::vector<String> strs, int xPos, int yPos, int size);
-std::vector<String> getCharacterVector(std::string str);
+std::vector<String> getLetterVector(std::string str);
 inline uint16_t randomColor();
 inline uint16_t getRGB(uint8_t r, uint8_t g, uint8_t b);
 
@@ -43,14 +43,17 @@ void loop() {
 
   testing();
 
-  //writeLine(getCharacterVector(EnglishUDHR), 0, 0, 2);
-  //writeScrollingLine(getCharacterVector(EnglishUDHR), 0, 0, 2);
-  //writeDoubleScrollingLine(getCharacterVector(EnglishUDHR), getCharacterVector(FrenchUDHR), 0, 0, 2);
+  //writeLine(getLetterVector(EnglishUDHR), 0, 0, 2);
+  //writeScrollingLine(getLetterVector(EnglishUDHR), 0, 0, 2);
+  //writeDoubleScrollingLine(getLetterVector(EnglishUDHR), getLetterVector(FrenchUDHR), 0, 0, 2);
 }
 
 void testing() {
 
-  writeToTft("hello world", 0, 0, 4);
+  int i = 0;
+  for (auto& str : getLetterVector("hello world")) {
+    writeToTft(str, i*4, 0, 4); i++;
+  }
   
 //  tft.setTextColor(TFT_BLACK);    
 //  tft.setTextFont(4);
@@ -122,11 +125,11 @@ void addLine(std::vector<String> strs, int xPos, int yPos, int size, int offset)
 
 // addSignature(): adds name to the corner of the screen
 void addSignature(std::string signature) {
-  addLine(getCharacterVector(signature), 155, 125, 1, 0);
+  addLine(getLetterVector(signature), 155, 125, 1, 0);
 }
 
-// getCharacterVector(): turns a std::string into an Arduino String vector
-std::vector<String> getCharacterVector(std::string str) {
+// getLetterVector(): turns a std::string into an Arduino String vector
+std::vector<String> getLetterVector(std::string str) {
   std::vector<String> chars;
   for (int i = 0; i < str.size(); i++) { 
     chars.push_back(String(str[i])); 
@@ -202,11 +205,11 @@ void addLine(std::vector<String> strs, int xPos, int yPos, int size, int offset)
 
 // addSignature(): adds name to the corner of the screen
 void addSignature(std::string signature) {
-  addLine(getCharacterVector(signature), 155, 125, 1, 0);
+  addLine(getLetterVector(signature), 155, 125, 1, 0);
 }
 
-// getCharacterVector(): turns a std::string into an Arduino String vector
-std::vector<String> getCharacterVector(std::string str) {
+// getLetterVector(): turns a std::string into an Arduino String vector
+std::vector<String> getLetterVector(std::string str) {
   std::vector<String> chars;
   for (int i = 0; i < str.size(); i++) { 
     chars.push_back(String(str[i])); 
