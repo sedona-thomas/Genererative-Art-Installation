@@ -5,7 +5,8 @@
  * @author snt2127
  */
 
-#define WAIT 50 // miliseconds
+#define WAIT 500 // miliseconds
+#define FRAMERATE 50 // miliseconds
 
 #include <stdint.h>
 #include <SPI.h>
@@ -20,7 +21,7 @@ std::vector<String> getCharacterVector(std::string str);
 inline uint16_t randomColor();
 inline uint16_t getRGB(uint8_t r, uint8_t g, uint8_t b);
 
-uint32_t currentBackgroundColor = randomColor();
+uint32_t currentBackgroundColor = TFT_WHITE;
 uint32_t currentTextColor = TFT_BLACK;
 uint8_t currentTextSize = 1; // 10 pixels
 
@@ -39,9 +40,23 @@ void setup(void) {
 void loop() {
   loopStartTime = millis();
   resetScreen();
+
+  testing();
+
+  //writeLine(getCharacterVector(EnglishUDHR), 0, 0, 2);
   //writeScrollingLine(getCharacterVector(EnglishUDHR), 0, 0, 2);
-  writeDoubleScrollingLine(getCharacterVector(EnglishUDHR), getCharacterVector(FrenchUDHR), 0, 0, 2);
-  currentBackgroundColor = randomColor();
+  //writeDoubleScrollingLine(getCharacterVector(EnglishUDHR), getCharacterVector(FrenchUDHR), 0, 0, 2);
+}
+
+void testing() {
+
+  writeToTft("hello world", 0, 0, 4);
+  
+//  tft.setTextColor(TFT_BLACK);    
+//  tft.setTextFont(4);
+//  tft.println("hello world");
+
+  delay(WAIT);
 }
 
 // resetScreen(): resets the background and text color/size of the display
@@ -49,6 +64,15 @@ void resetScreen() {
   tft.setTextSize(currentTextSize);
   tft.fillScreen(currentBackgroundColor);
   tft.setTextColor(currentTextColor);
+  tft.setCursor(0, 0, currentTextSize);
+}
+
+int writeToTft(String str, int xPos, int yPos, int size) {
+  tft.setCursor(xPos, yPos, size);
+  tft.setTextFont(size);
+  tft.print(str);
+  return xPos + (10 * str.length() * size);
+  //return tft.drawString(str, xPos, yPos, size);
 }
 
 // writeScrollingLine(): writes two lines of text to the screen and scrolls through the text
@@ -58,7 +82,87 @@ void writeDoubleScrollingLine(std::vector<String> strs1, std::vector<String> str
     addLine(strs1, xPos, yPos, size, i);
     addLine(strs2, xPos, yPos + 10 * size, size, i);
     addSignature("Sedona Thomas");
-    delay(WAIT);
+    delay(FRAMERATE);
+    if (i % 10 == 0) {
+      currentBackgroundColor = randomColor();
+    }
+  }
+}
+
+// writeScrollingLine(): writes a single line of text to the screen and scrolls through the text
+void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size) {
+  for (int i = 0; i < strs.size(); i++) {
+    resetScreen();
+    int currentX = xPos;
+    std::vector<String> subStrs = {strs.begin() + i, strs.end()};
+    for (const auto& str : subStrs) {
+      currentX += writeToTft(str, currentX, yPos, size);
+    }
+    delay(FRAMERATE);
+  }
+}
+
+// writeLine(): writes a single line of text to the screen as a single frame
+void writeLine(std::vector<String> strs, int xPos, int yPos, int size) {
+  resetScreen();
+  for (const auto& str : strs) {
+    xPos += writeToTft(str, xPos, yPos, size);
+  }
+  delay(FRAMERATE);
+}
+
+// addLine(): adds a single line of text to the screen at starting at an offset location
+void addLine(std::vector<String> strs, int xPos, int yPos, int size, int offset) {
+  int currentX = xPos;
+  std::vector<String> subStrs = {strs.begin() + offset, strs.end()};
+  for (const auto& str : subStrs) {
+    currentX += writeToTft(str, currentX, yPos, size);
+  }
+}
+
+// addSignature(): adds name to the corner of the screen
+void addSignature(std::string signature) {
+  addLine(getCharacterVector(signature), 155, 125, 1, 0);
+}
+
+// getCharacterVector(): turns a std::string into an Arduino String vector
+std::vector<String> getCharacterVector(std::string str) {
+  std::vector<String> chars;
+  for (int i = 0; i < str.size(); i++) { 
+    chars.push_back(String(str[i])); 
+  }
+  return chars;
+}
+
+// randomColor(): outputs a random pastel color that can be used for a background
+inline uint16_t randomColor() {
+  return getRGB(random(0, 255) / 2, random(0, 255) / 2, random(0, 255) / 2);
+}
+
+// getRGB(): converts an RGB value to an Arduino color value
+// https://stackoverflow.com/questions/13720937/c-defined-16bit-high-color
+inline uint16_t getRGB(uint8_t r, uint8_t g, uint8_t b) {
+  return ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+// writeScrollingLine(): writes two lines of text to the screen and scrolls through the text
+void writeDoubleScrollingLine(std::vector<String> strs1, std::vector<String> strs2, int xPos, int yPos, int size) {
+  for (int i = 0; i < strs1.size(); i++) {
+    resetScreen();
+    addLine(strs1, xPos, yPos, size, i);
+    addLine(strs2, xPos, yPos + 10 * size, size, i);
+    addSignature("Sedona Thomas");
+    delay(FRAMERATE);
     if (i % 10 == 0) {
       currentBackgroundColor = randomColor();
     }
@@ -74,7 +178,7 @@ void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size) 
     for (const auto& str : subStrs) {
       currentX += tft.drawString(str, currentX, yPos, size);
     }
-    delay(WAIT);
+    delay(FRAMERATE);
   }
 }
 
@@ -84,7 +188,7 @@ void writeLine(std::vector<String> strs, int xPos, int yPos, int size) {
   for (const auto& str : strs) {
     xPos += tft.drawString(str, xPos, yPos, size);
   }
-  delay(WAIT);
+  delay(FRAMERATE);
 }
 
 // addLine(): adds a single line of text to the screen at starting at an offset location
@@ -120,3 +224,4 @@ inline uint16_t randomColor() {
 inline uint16_t getRGB(uint8_t r, uint8_t g, uint8_t b) {
   return ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
 }
+*/
