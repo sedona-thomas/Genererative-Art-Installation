@@ -201,7 +201,7 @@ void rainbowBackground() {
 // rainbowBox(): makes the box a scrolling rainbow gradient
 void rainbowBox() {
     for (int i = 0; i < 60; i++) {
-      tft.drawFastVLine(i+3, 105, 27, colour);
+      tft.drawFastVLine(i+10, 100, 30, colour);
       switch (state) {
         case 0:
           green += 2;
