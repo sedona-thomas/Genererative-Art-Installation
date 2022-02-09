@@ -52,7 +52,7 @@ void testing() {
 
   int i = 0;
   for (auto& str : getLetterVector("hello world")) {
-    writeToTft(str, i*4, 0, 4); i++;
+    writeToTft(str, i*4*2, 0, 4); i++;
   }
   
 //  tft.setTextColor(TFT_BLACK);    
