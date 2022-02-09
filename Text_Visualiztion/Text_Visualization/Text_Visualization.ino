@@ -13,7 +13,6 @@
 #include <TFT_eSPI.h>
 TFT_eSPI tft = TFT_eSPI();
 
-void blankScreenDelay();
 void resetScreen();
 void writeDoubleScrollingLine(std::vector<String> strs1, std::vector<String> strs2, int xPos, int yPos, int size);
 void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size);
@@ -46,7 +45,6 @@ void setup(void) {
   tft.init();
   tft.setRotation(1);
   startTime = millis();
-  blankScreenDelay();
 }
 
 void loop() {
@@ -55,11 +53,6 @@ void loop() {
   //writeLine(getLetterVector(EnglishUDHR), 0, 0, 5);
   //writeScrollingLine(getLetterVector(EnglishUDHR), 0, 0, 8);
   writeDoubleScrollingLine(getLetterVector(EnglishUDHR), getLetterVector(FrenchUDHR), 0, 0, 5);
-}
-
-void blankScreenDelay() {
-  tft.fillScreen(TFT_BLACK);
-  delay(WAIT);
 }
 
 // resetScreen(): resets the background and text color/size of the display
