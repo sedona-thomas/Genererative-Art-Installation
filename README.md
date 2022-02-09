@@ -15,13 +15,13 @@ A generative art installation on an  ESP32 TTGO T-Display that visualizes the UD
 ### Setup Arduino
 
 - Download and open the Arduino IDE [Download](https://www.arduino.cc/en/software)
-- Open Preferences and add the ESP package at the following link by copying and pasting it into "Additonal Boards Manager URLs" [https://dl.espressif.com/dl/package_esp32_index.json](https://dl.espressif.com/dl/package_esp32_index.json)
-- Select Tools > Boards > ESP32 Arduino > TTGO T1
-- Select Tools > Manage Libraries, then search for "TFT_eSPI" and install the most recent version
+- Open Preferences and add the ESP package at the following link by copying and pasting it into `Additonal Boards Manager URLs` [https://dl.espressif.com/dl/package_esp32_index.json](https://dl.espressif.com/dl/package_esp32_index.json)
+- Select `Tools > Boards > ESP32 Arduino > TTGO T1`
+- Select `Tools > Manage Libraries`, then search for `TFT_eSPI` and install the most recent version
 - In your file storage system, find the Arduino folder
-- Open Arduino/libraries/TFT_eSPI/User_Setup_Select.h
+- Open `Arduino/libraries/TFT_eSPI/User_Setup_Select.h`
 - Comment out the line that says `#include <User_Setup.h>`
-- Uncomment the line that says "#include <User_Setups/Setup25_TTGO_T_Display.h>"
+- Uncomment the line that says `#include <User_Setups/Setup25_TTGO_T_Display.h>`
 
 ## More Information
 
