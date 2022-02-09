@@ -52,7 +52,7 @@ void loop() {
   resetScreen();
   //writeLine(getLetterVector(EnglishUDHR), 0, 0, 5);
   //writeScrollingLine(getLetterVector(EnglishUDHR), 0, 0, 8);
-  writeDoubleScrollingLine(getLetterVector(EnglishUDHR), getLetterVector(FrenchUDHR), 0, 0, 6);
+  writeDoubleScrollingLine(getLetterVector(EnglishUDHR), getLetterVector(FrenchUDHR), 0, 0, 5);
 }
 
 // resetScreen(): resets the background and text color/size of the display
@@ -200,8 +200,8 @@ void rainbowBackground() {
 
 // rainbowBox(): makes the box a scrolling rainbow gradient
 void rainbowBox() {
-    for (int i = 0; i < 50; i++) {
-      tft.drawFastVLine(i+3, 110, 22, colour);
+    for (int i = 0; i < 60; i++) {
+      tft.drawFastVLine(i+3, 100, 32, colour);
       switch (state) {
         case 0:
           green += 2;
