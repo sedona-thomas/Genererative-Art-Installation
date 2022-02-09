@@ -44,7 +44,7 @@ void loop() {
   //testing();
   //writeLine(getLetterVector(EnglishUDHR), 0, 0, 2);
   //writeScrollingLine(getLetterVector(EnglishUDHR), 0, 0, 2);
-  //writeDoubleScrollingLine(getLetterVector(EnglishUDHR), getLetterVector(FrenchUDHR), 0, 0, 2);
+  writeDoubleScrollingLine(getLetterVector(EnglishUDHR), getLetterVector(FrenchUDHR), 0, 0, 2);
 }
 
 void testing() {
