@@ -6,7 +6,7 @@
  */
 
 #define WAIT 500 // miliseconds
-#define FRAMERATE 50 // miliseconds
+#define FRAMERATE 100 // miliseconds
 
 #include <stdint.h>
 #include <SPI.h>
@@ -17,13 +17,23 @@ void resetScreen();
 void writeDoubleScrollingLine(std::vector<String> strs1, std::vector<String> strs2, int xPos, int yPos, int size);
 void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size);
 void writeLine(std::vector<String> strs, int xPos, int yPos, int size);
+void writeLine(String str, int xPos, int yPos, int size);
+void addSignature(std::string signature);
 std::vector<String> getLetterVector(std::string str);
 inline uint16_t randomColor();
 inline uint16_t getRGB(uint8_t r, uint8_t g, uint8_t b);
+void rainbowBackground();
+void rainbowBox();
 
 uint32_t currentBackgroundColor = TFT_WHITE;
 uint32_t currentTextColor = TFT_BLACK;
 uint8_t currentTextSize = 1; // 10 pixels
+
+byte red = 31;
+byte green = 0;
+byte blue = 0;
+byte state = 0;
+unsigned int colour = red << 11;
 
 unsigned long startTime = 0;
 unsigned long loopStartTime = 0; // Used for testing draw times
@@ -40,18 +50,9 @@ void setup(void) {
 void loop() {
   loopStartTime = millis();
   resetScreen();
-
-  //testing();
-  //writeLine(getLetterVector(EnglishUDHR), 0, 0, 2);
-  //writeScrollingLine(getLetterVector(EnglishUDHR), 0, 0, 2);
-  writeDoubleScrollingLine(getLetterVector(EnglishUDHR), getLetterVector(FrenchUDHR), 0, 0, 2);
-}
-
-void testing() {
-  tft.setTextColor(TFT_BLACK);    
-  tft.setTextFont(4);
-  tft.println("hello world");
-  delay(WAIT);
+  //writeLine(getLetterVector(EnglishUDHR), 0, 0, 5);
+  //writeScrollingLine(getLetterVector(EnglishUDHR), 0, 0, 8);
+  writeDoubleScrollingLine(getLetterVector(EnglishUDHR), getLetterVector(FrenchUDHR), 0, 0, 6);
 }
 
 // resetScreen(): resets the background and text color/size of the display
@@ -60,14 +61,6 @@ void resetScreen() {
   tft.fillScreen(currentBackgroundColor);
   tft.setTextColor(currentTextColor);
   tft.setCursor(0, 0, currentTextSize);
-}
-
-// writeLine(): writes a single line of text to the screen as a single frame
-void writeLine(String str, int xPos, int yPos, int size) {
-  tft.setCursor(xPos, yPos, size);
-  tft.setTextFont(size);
-  tft.print(str);
-  //tft.drawString(str, xPos, yPos, size);
 }
 
 // writeScrollingLine(): writes two lines of text to the screen and scrolls through the text
@@ -86,12 +79,13 @@ void writeDoubleScrollingLine(std::vector<String> strs1, std::vector<String> str
 
 // writeScrollingLine(): writes a single line of text to the screen and scrolls through the text
 void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size) {
+  currentTextSize = size;
   for (int i = 0; i < strs.size(); i++) {
     resetScreen();
     int currentX = xPos;
     std::vector<String> subStrs = {strs.begin() + i, strs.end()};
     for (const auto& str : subStrs) {
-      currentX += tft.drawString(str, currentX, yPos, size);
+      currentX += tft.drawString(str, currentX, yPos);
     }
     delay(FRAMERATE);
   }
@@ -99,25 +93,37 @@ void writeScrollingLine(std::vector<String> strs, int xPos, int yPos, int size) 
 
 // writeLine(): writes a single line of text to the screen as a single frame
 void writeLine(std::vector<String> strs, int xPos, int yPos, int size) {
+  currentTextSize = size;
   resetScreen();
   for (const auto& str : strs) {
-    xPos += tft.drawString(str, xPos, yPos, size);
+    xPos += tft.drawString(str, xPos, yPos);
   }
   delay(FRAMERATE);
 }
 
+// writeLine(): writes a single line of text to the screen as a single frame
+void writeLine(String str, int xPos, int yPos, int size) {
+  tft.setCursor(xPos, yPos, size);
+  tft.setTextFont(size);
+  tft.print(str);
+  //tft.setTextSize(size);
+  //tft.drawString(str, xPos, yPos);
+}
+
 // addLine(): adds a single line of text to the screen at starting at an offset location
 void addLine(std::vector<String> strs, int xPos, int yPos, int size, int offset) {
+  tft.setTextSize(size);
   int currentX = xPos;
   std::vector<String> subStrs = {strs.begin() + offset, strs.end()};
   for (const auto& str : subStrs) {
-    currentX += tft.drawString(str, currentX, yPos, size);
+    currentX += tft.drawString(str, currentX, yPos);
   }
 }
 
 // addSignature(): adds name to the corner of the screen
 void addSignature(std::string signature) {
   addLine(getLetterVector(signature), 155, 125, 1, 0);
+  rainbowBox();
 }
 
 // getLetterVector(): turns a std::string into an Arduino String vector
@@ -138,4 +144,108 @@ inline uint16_t randomColor() {
 // https://stackoverflow.com/questions/13720937/c-defined-16bit-high-color
 inline uint16_t getRGB(uint8_t r, uint8_t g, uint8_t b) {
   return ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
+}
+
+// rainbowBackground(): makes the background a scrolling rainbow gradient
+void rainbowBackground() {
+    for (int i = 0; i < tft.width(); i++) {
+      tft.drawFastVLine(i, 0, tft.height(), colour);
+      switch (state) {
+        case 0:
+          green += 2;
+          if (green == 64) {
+            green = 63;
+            state = 1;
+          }
+          break;
+        case 1:
+          red--;
+          if (red == 255) {
+            red = 0;
+            state = 2;
+          }
+          break;
+        case 2:
+          blue ++;
+          if (blue == 32) {
+            blue = 31;
+            state = 3;
+          }
+          break;
+        case 3:
+          green -= 2;
+          if (green == 255) {
+            green = 0;
+            state = 4;
+          }
+          break;
+        case 4:
+          red ++;
+          if (red == 32) {
+            red = 31;
+            state = 5;
+          }
+          break;
+        case 5:
+          blue --;
+          if (blue == 255) {
+            blue = 0;
+            state = 0;
+          }
+          break;
+      }
+      colour = red << 11 | green << 5 | blue;
+    }
+}
+
+// rainbowBox(): makes the box a scrolling rainbow gradient
+void rainbowBox() {
+    for (int i = 0; i < 50; i++) {
+      tft.drawFastVLine(i+3, 110, 22, colour);
+      switch (state) {
+        case 0:
+          green += 2;
+          if (green == 64) {
+            green = 63;
+            state = 1;
+          }
+          break;
+        case 1:
+          red--;
+          if (red == 255) {
+            red = 0;
+            state = 2;
+          }
+          break;
+        case 2:
+          blue ++;
+          if (blue == 32) {
+            blue = 31;
+            state = 3;
+          }
+          break;
+        case 3:
+          green -= 2;
+          if (green == 255) {
+            green = 0;
+            state = 4;
+          }
+          break;
+        case 4:
+          red ++;
+          if (red == 32) {
+            red = 31;
+            state = 5;
+          }
+          break;
+        case 5:
+          blue --;
+          if (blue == 255) {
+            blue = 0;
+            state = 0;
+          }
+          break;
+      }
+      colour = red << 11 | green << 5 | blue;
+    }
 }
