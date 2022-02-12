@@ -41,6 +41,6 @@ A generative art installation on an  ESP32 TTGO T-Display that visualizes the UD
 
 ## More Information
 
-Medium Blog Post: https://medium.com/@sedonathomas/generative-art-9378c338fe06
+Medium Blog Post: [https://sedonathomas.medium.com/generative-art-9378c338fe06](https://sedonathomas.medium.com/generative-art-9378c338fe06)
 
-Youtube Demo: https://www.youtube.com/watch?v=hJqq8oLx8cU&feature=youtu.be
+Youtube Demo: [https://www.youtube.com/watch?v=hJqq8oLx8cU&feature=youtu.be](https://www.youtube.com/watch?v=hJqq8oLx8cU&feature=youtu.be)
