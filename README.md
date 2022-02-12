@@ -39,6 +39,11 @@ A generative art installation on an  ESP32 TTGO T-Display that visualizes the UD
 - Plug in the ESP32 TTGO T-Display
 - Select `Sketch > Upload`
 
+### Finish Installation
+
+- Cut out an envelope to display the ESP32 TTGO T-Display
+- Decorate the display to complement the installation space
+
 ## More Information
 
 Medium Blog Post: [https://sedonathomas.medium.com/generative-art-9378c338fe06](https://sedonathomas.medium.com/generative-art-9378c338fe06)
