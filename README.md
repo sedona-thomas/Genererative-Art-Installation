@@ -45,4 +45,5 @@ Medium Blog Post: [https://sedonathomas.medium.com/generative-art-9378c338fe06](
 
 Youtube Demo: [https://www.youtube.com/watch?v=hJqq8oLx8cU&feature=youtu.be](https://www.youtube.com/watch?v=hJqq8oLx8cU&feature=youtu.be)
 
+##
 ## Special Thanks to Professor Mark Santolucito and the staff at the Barnard Design Center for all of their help!!!
