@@ -18,6 +18,7 @@ A generative art installation on an  ESP32 TTGO T-Display that visualizes the UD
 - Download and open the Arduino IDE ([Download](https://www.arduino.cc/en/software))
 - Open Preferences 
 - Copy and paste the following link ([https://dl.espressif.com/dl/package_esp32_index.json](https://dl.espressif.com/dl/package_esp32_index.json)) into `Additonal Boards Manager URLs` to add the ESP package
+- Select `Tools > Boards > Boards Manager`, then search for `esp32` and install the most recent version
 - Select `Tools > Boards > ESP32 Arduino > TTGO T1`
 - Select `Tools > Manage Libraries`, then search for `TFT_eSPI` and install the most recent version
 - In your file storage system, find the Arduino folder
