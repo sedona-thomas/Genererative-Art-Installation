@@ -8,7 +8,7 @@ A generative art installation on an  ESP32 TTGO T-Display that visualizes the UD
 ## Materials
 
  - ESP32 TTGO T-Display
- - 500 mAh battery
+ - Charged 500 mAh battery
  - USB-C cord
 
 ## Make at Home
