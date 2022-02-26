@@ -1,4 +1,4 @@
-# ESP32 TTGO T-Display scrolling text
+# ESP32 TTGO T-Display Text Visualization
 
 A generative art installation on an  ESP32 TTGO T-Display that visualizes the UDHR in English and French for Professor Mark Santolucito's Creative Embedded Systems (COMS 3930) Course in Spring 2022
 
@@ -7,7 +7,7 @@ A generative art installation on an  ESP32 TTGO T-Display that visualizes the UD
 
 ## Materials
 
- - ESP32 TTGO T-Display
+ - ESP32 TTGO T-Display (CP 2104)
  - Charged 500 mAh battery
  - USB-C cord
 
