@@ -1,4 +1,4 @@
-# ESP32 TTGO T-Display Text Visualization
+# Genererative Art Installation
 
 A generative art installation on an  ESP32 TTGO T-Display that visualizes the UDHR in English and French for Professor Mark Santolucito's Creative Embedded Systems (COMS 3930) Course in Spring 2022
 
